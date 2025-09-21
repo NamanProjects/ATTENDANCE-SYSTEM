@@ -27,6 +27,7 @@ const memberIdInput = document.getElementById('memberId');
 const addMemberBtn = document.getElementById('addMember');
 const membersTableBody = document.querySelector('#membersTable tbody');
 const exportCsvBtn = document.getElementById('exportCsv');
+const importCsvInput = document.getElementById('importCsv');
 const clearAllBtn = document.getElementById('clearAll');
 const authSection = document.getElementById('authSection');
 const loginUsername = document.getElementById('loginUsername');
@@ -154,6 +155,56 @@ function attachHandlers(){
     renderEventOptions();
     renderMembersTable();
   });
+
+  // CSV import handler
+  if(importCsvInput){
+    importCsvInput.addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if(!f) return;
+      if(!requireAuth()) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const txt = String(reader.result || '');
+        const lines = txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+        if(lines.length === 0) return alert('Empty file');
+        // support header: ID,Name or Name,ID - detect
+        const headerParts = lines[0].split(',').map(s=>s.trim().toLowerCase());
+        let hasHeader = false;
+        let idIndex = 0, nameIndex = 1;
+        if(headerParts.includes('id') || headerParts.includes('name')){
+          hasHeader = true;
+          idIndex = headerParts.indexOf('id') >= 0 ? headerParts.indexOf('id') : 0;
+          nameIndex = headerParts.indexOf('name') >= 0 ? headerParts.indexOf('name') : (idIndex === 0 ? 1 : 0);
+        }
+        const rows = hasHeader ? lines.slice(1) : lines;
+        let added = 0, skipped = 0, dup = 0;
+        rows.forEach(line => {
+          // simple CSV split by comma, support quoted names
+          const parts = line.match(/(?:\s*"([^"]*)"\s*|\s*([^,]+)\s*)(?:,|$)/g);
+          let cols = [];
+          if(parts){
+            cols = parts.map(p => p.replace(/^\s*"|"\s*$|\s*$/g,''));
+          } else {
+            cols = line.split(',').map(s=>s.trim());
+          }
+          const rawId = (cols[idIndex] || '').trim();
+          const rawName = (cols[nameIndex] || '').trim();
+          if(!rawId || !rawName){ skipped++; return; }
+          const id = rawId.toUpperCase();
+          if(Object.keys(state.members).some(mid => mid.toUpperCase() === id)){ dup++; return; }
+          state.members[id] = { id, name: rawName };
+          // ensure attendance key on existing events
+          Object.values(state.events).forEach(ev => ev.attendance[id] = false);
+          added++;
+        });
+        saveState();
+        renderMembersTable();
+        alert(`Import complete. Added ${added} members. Skipped ${skipped} invalid rows. ${dup} duplicates.`);
+        importCsvInput.value = null;
+      };
+      reader.readAsText(f);
+    });
+  }
 
 
   btnLogin.addEventListener('click', () => {
