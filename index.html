@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Attendance Taker</h1>
+    <p>Jay Swaminarayan</p>
 
     <section id="authSection" class="controls">
       <div class="row">
@@ -23,31 +23,39 @@
     </section>
 
     <div id="appContent" style="display:none">
+
     <section class="controls">
       <div class="row">
-        <input id="eventName" placeholder="New event name" />
-        <button id="addEvent">Add Event</button>
+        
+        <button id="Event" class="ebtn">Events</button>
+        <button id="Events" class="ebtn">Event</button> 
+        <button id="addMember-1"class="mbtn">Add Member</button>
+      <button id="addMember-2"class="mbtn">Add Member</button>
       </div>
-      <div class="row">
+      <div class="row" id="eventRow">
+        <div class="flx">
+          <input type="date" id="eventName" placeholder="New event name"/>
+          <button id="addEvent">Add Event</button>
         <select id="eventList"></select>
-        <button id="renameEvent">Rename</button>
+        <!-- <button id="renameEvent">Rename</button> -->
         <button id="deleteEvent">Delete</button>
         <button id="showPastEvents">Show past events</button>
-      </div>
-
-      <hr />
-
-      <div class="row">
+      </div></div>
+     
+      <div class="row" id="memberRow">
+          <div class="flx">
         <input id="memberName" placeholder="Member name" />
         <input id="memberId" placeholder="Unique ID (e.g. A001)" />
         <button id="addMember">Add Member</button>
-      </div>
-      <div class="row">
-        <button id="exportCsv">Export CSV</button>
         <input id="importCsv" type="file" accept=".csv,text/csv" />
-        <button id="clearAll" style="display: none;">Clear All (reset)</button>
-      </div>
+      </div></div>
+      
     </section>
+<div class="CSV">
+        <button id="exportCsv">Export CSV</button>
+        
+        <button id="clearAll" style="display:none;">Clear All (reset)</button>
+      </div>
 
     <section id="membersSection">
       <table id="membersTable">
@@ -68,7 +76,7 @@
       </small>
     </footer>
   </div>
-
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   <script src="app.js"></script>
 </body>
 </html>
