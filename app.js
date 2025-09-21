@@ -19,7 +19,7 @@ if(Object.keys(state.auth.users).length === 0){
 const eventList = document.getElementById('eventList');
 const addEventBtn = document.getElementById('addEvent');
 const eventNameInput = document.getElementById('eventName');
-const renameEventBtn = document.getElementById('renameEvent');
+// const renameEventBtn = document.getElementById('renameEvent');
 const deleteEventBtn = document.getElementById('deleteEvent');
 
 const memberNameInput = document.getElementById('memberName');
@@ -93,16 +93,16 @@ function attachHandlers(){
     renderMembersTable();
   });
 
-  renameEventBtn.addEventListener('click', () => {
-    if(!requireAuth()) return;
-    const id = state.selectedEventId;
-    if(!id) return alert('Select an event');
-    const newName = prompt('New event name', state.events[id].name);
-    if(!newName) return;
-    state.events[id].name = newName.trim();
-    saveState();
-    renderEventOptions();
-  });
+//   renameEventBtn.addEventListener('click', () => {
+//     if(!requireAuth()) return;
+//     const id = state.selectedEventId;
+//     if(!id) return alert('Select an event');
+//     const newName = prompt('New event name', state.events[id].name);
+//     if(!newName) return;
+//     state.events[id].name = newName.trim();
+//     saveState();
+//     renderEventOptions();
+//   });
 
   deleteEventBtn.addEventListener('click', () => {
     if(!requireAuth()) return;
@@ -248,12 +248,18 @@ function updateAuthUI(){
     authMessage.textContent = 'Signed in as ' + state.auth.currentUser;
     btnLogout.style.display = '';
     btnLogin.style.display = 'none';
+    // hide login inputs once authenticated
+    if(loginUsername) { loginUsername.style.display = 'none'; loginUsername.disabled = true; }
+    if(loginPassword) { loginPassword.style.display = 'none'; loginPassword.disabled = true; }
     appContent.style.display = '';
     authSection.style.display = '';
   } else {
     authMessage.textContent = 'You must sign in to add events or see past events.';
     btnLogout.style.display = 'none';
     btnLogin.style.display = '';
+    // show login inputs when signed out
+    if(loginUsername) { loginUsername.style.display = ''; loginUsername.disabled = false; }
+    if(loginPassword) { loginPassword.style.display = ''; loginPassword.disabled = false; }
     appContent.style.display = 'none';
   }
 }
@@ -309,7 +315,7 @@ function renderMembersTable(){
 
   const tdActions = document.createElement('td'); tdActions.setAttribute('data-label','Actions');
     const delBtn = document.createElement('button');
-    delBtn.textContent = 'Remove';
+    delBtn.textContent = 'Delete';
     delBtn.className = 'action-btn';
     delBtn.addEventListener('click', () => {
       if(!confirm('Remove member ' + member.name + ' ("' + member.id + '")?')) return;
@@ -334,8 +340,48 @@ function buildCsv(){
   if(!eventId) return rows.join('\n');
   const q = s => '"' + String(s).replace(/"/g, '""') + '"';
   Object.values(state.members).forEach(m => {
-    const present = state.events[eventId].attendance[m.id] ? '1' : '0';
+    const present = state.events[eventId].attendance[m.id] ? 'p' : 'A';
     rows.push([q(m.id), q(m.name), present].join(','));
   });
   return rows.join('\n');
 }
+
+
+$('#Event').click(function(){
+    $("#Events").show();
+    $("#Event").hide(); 
+    $("#eventRow").show();
+});
+$('#Events').click(function(){
+    $("#Event").show(); 
+    $("#Events").hide(); 
+    $("#eventRow").hide();
+}   );
+
+$('#addMember-1').click(function(){
+    $("#addMember-2").show();
+    $("#addMember-1").hide(); 
+    $("#memberRow").show();
+});
+$('#addMember-2').click(function(){
+    $("#addMember-1").show(); 
+    $("#addMember-2").hide(); 
+    $("#memberRow").hide();
+}   );
+
+$('#addMember-1').click(function(){
+    $("#addMember-2").show(); 
+    $("#addMember-1").hide(); 
+    $("#memberRow").show();
+    $("#eventRow").hide();
+    $("#Event").show(); 
+    $("#Events").hide(); 
+}   );
+$('#Event').click(function(){
+    $("#Events").show();
+    $("#Event").hide(); 
+    $("#eventRow").show();
+    $("#addMember-1").show(); 
+    $("#addMember-2").hide();
+    $("#memberRow").hide();
+}   );
