@@ -1,0 +1,37 @@
+.root { box-sizing: border-box; }
+*,:before,:after { box-sizing: inherit; }
+body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: linear-gradient(180deg,#f4f7fb, #eef4fb); color: #0f1724; margin: 0; padding: 20px; }
+.container { max-width: 980px; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(16,24,40,0.08); border: 1px solid rgba(16,24,40,0.04); }
+h1 { margin: 0 0 12px 0; font-size: 20px; letter-spacing: -0.2px; }
+.controls { margin-bottom: 12px; }
+.controls .row { display:flex; gap:10px; margin-bottom:10px; align-items:center; }
+.controls input, .controls select { padding:10px 12px; border-radius:10px; border:1px solid #e6eef8; background: #fbfdff; flex:1; font-size:14px }
+.controls input::placeholder { color:#9aa6b2 }
+.controls button { padding:10px 14px; border-radius:10px; background:#0b6ef6; color:white; border: none; cursor:pointer; box-shadow: 0 6px 18px rgba(11,110,246,0.12); font-weight:600 }
+.controls button.secondary { background: #f3f6fb; color:#0b6ef6; box-shadow:none; border:1px solid rgba(11,110,246,0.08) }
+.controls button:active { transform: translateY(1px) }
+.controls button[disabled] { background:#cfe0ff; cursor:not-allowed }
+
+#membersTable { width:100%; border-collapse: collapse; margin-top:8px }
+#membersTable thead { background: linear-gradient(90deg, rgba(11,110,246,0.06), rgba(11,110,246,0.03)); }
+#membersTable th, #membersTable td { padding:12px 10px; border-bottom:1px solid #f1f5f9; text-align:left; font-size:14px }
+#membersTable th { color:#334155; font-weight:600; font-size:13px }
+.action-btn { background: #eef2ff; border: none; padding:6px 10px; border-radius:8px; cursor:pointer; color:#0b6ef6 }
+footer { margin-top:14px; color:#7b8794 }
+small { font-size:12px }
+.no-members { padding: 20px; text-align:center; color:#6b7280 }
+
+/* Responsive: table turns into cards on small screens */
+@media (max-width:700px){
+	.controls .row { flex-direction: column; align-items: stretch }
+	.controls input, .controls select { width:100% }
+	#membersTable thead { display:none }
+	#membersTable, #membersTable tbody, #membersTable tr, #membersTable td { display:block; width:100% }
+	#membersTable tr { margin-bottom: 12px; background: #fbfdff; border-radius:10px; padding:10px; box-shadow: 0 8px 20px rgba(16,24,40,0.03); border:1px solid rgba(16,24,40,0.03) }
+	#membersTable td { padding:8px 6px; border: none; }
+	#membersTable td:before { content: attr(data-label); display:block; font-weight:600; color:#334155; margin-bottom:6px }
+}
+
+/* small helpers */
+.muted { color:#7b8794 }
+.row-right { margin-left:auto }

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple Attendance Taker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Attendance Taker</h1>
+
+    <section id="authSection" class="controls">
+      <div class="row">
+        <input id="loginUsername" placeholder="Username" />
+        <input id="loginPassword" type="password" placeholder="Password" />
+      <button id="btnLogin">Login</button>
+        <button id="btnLogout" style="display:none">Logout</button>
+      </div>
+      <div class="row">
+  <div id="authMessage">You must sign in to add events or see past events. Self-registration is disabled.</div>
+      </div>
+    </section>
+
+    <div id="appContent" style="display:none">
+    <section class="controls">
+      <div class="row">
+        <input id="eventName" placeholder="New event name" />
+        <button id="addEvent">Add Event</button>
+      </div>
+      <div class="row">
+        <select id="eventList"></select>
+        <button id="renameEvent">Rename</button>
+        <button id="deleteEvent">Delete</button>
+        <button id="showPastEvents">Show past events</button>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <input id="memberName" placeholder="Member name" />
+        <input id="memberId" placeholder="Unique ID (e.g. A001)" />
+        <button id="addMember">Add Member</button>
+      </div>
+      <div class="row">
+        <button id="exportCsv">Export CSV</button>
+        <button id="clearAll" style="display: none;">Clear All (reset)</button>
+      </div>
+    </section>
+
+    <section id="membersSection">
+      <table id="membersTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Present</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <footer>
+      <small>BAPS Swaminarayan Sanstha
+      </small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
