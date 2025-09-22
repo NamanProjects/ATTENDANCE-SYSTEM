@@ -40,7 +40,7 @@ small { font-size:12px }
     flex-direction: column;
     gap: 10px;
 }
-	.controls input, .controls select { width:100% }
+ .controls select { width:100% }
 	#membersTable thead { display:none }
 	#membersTable, #membersTable tbody, #membersTable tr, #membersTable td { display: block; width:100% }
 	#membersTable tr { display: flex; margin-bottom: 12px; background: #fbfdff; border-radius:10px; padding:10px; box-shadow: 0 8px 20px rgba(16,24,40,0.03); border:1px solid rgba(16,24,40,0.03) }
